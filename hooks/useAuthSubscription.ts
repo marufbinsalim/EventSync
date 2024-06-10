@@ -3,42 +3,60 @@ import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-export default function useAuthSubscription() {
+function getNextRoute(
+  event: AuthChangeEvent,
+  session: Session | null,
+  currentPath: string,
+  unprotectedRoutes: string[]
+): string {
+  let next = "";
+
+  // If the current path is an unprotected route, stay on the current path
+  if (unprotectedRoutes.includes(currentPath)) {
+    return currentPath;
+  }
+
+  // Determine the next route based on the auth event
+  switch (event) {
+    case "INITIAL_SESSION":
+      // If there's a session, and the current path is "/", redirect to the dashboard, otherwise stay on the current path
+      // If there's no session, redirect to "/"
+      next = session ? (currentPath === "/" ? "/dashboard" : currentPath) : "/";
+      break;
+    case "TOKEN_REFRESHED":
+      next = session ? (currentPath === "/" ? "/dashboard" : currentPath) : "/";
+      break;
+    case "SIGNED_IN":
+      next = currentPath === "/" ? "/dashboard" : currentPath;
+      break;
+    case "SIGNED_OUT":
+      next = "/";
+      break;
+  }
+
+  return next;
+}
+
+export default function useAuthSubscription({
+  unprotectedRoutes,
+}: {
+  unprotectedRoutes: string[];
+}) {
   const router = useRouter();
   const [nextRoute, setNextRoute] = useState("");
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  function handleEvent(
-    event: AuthChangeEvent,
-    session: Session | null
-  ): { nextRoute: string } {
-    let next = "";
-    switch (event) {
-      case "INITIAL_SESSION":
-        next = session ? "/dashboard" : "/";
-        break;
-      case "TOKEN_REFRESHED":
-        next = session ? "/dashboard" : "/";
-        break;
-      case "SIGNED_IN":
-        next = "/dashboard";
-        break;
-      case "SIGNED_OUT":
-        next = "/";
-        break;
-    }
-
-    return {
-      nextRoute: next,
-    };
-  }
-
   useEffect(() => {
     setIsLoading(true);
     const authState = supabase.auth.onAuthStateChange((event, session) => {
-      const { nextRoute } = handleEvent(event, session);
-      setNextRoute(nextRoute);
+      let nextRoutePath = getNextRoute(
+        event,
+        session,
+        router.pathname,
+        unprotectedRoutes
+      );
+      setNextRoute(nextRoutePath);
       setSession(session);
       setIsLoading(false);
     });
@@ -47,11 +65,11 @@ export default function useAuthSubscription() {
       authState.data.subscription.unsubscribe();
       setIsLoading(false);
     };
-  }, []);
+  }, [router, unprotectedRoutes]);
 
   useEffect(() => {
-    // Redirect to the next route if it's not the current route
     if (nextRoute !== "" && router.pathname !== nextRoute && !isLoading) {
+      // Redirect to the next route if it's not the current route and the auth state is not loading
       router.push(nextRoute);
     }
   }, [nextRoute, router, isLoading]);
