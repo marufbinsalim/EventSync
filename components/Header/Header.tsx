@@ -14,7 +14,7 @@ export default function Header() {
           </a>
           <a href="/profile">
             <img
-              src={data.user?.profile_picture_url || "/avatar.png"}
+              src={data.user.profile_picture_url || "/avatar.png"}
               alt="Avatar"
               height={32}
               width={32}
