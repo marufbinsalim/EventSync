@@ -7,6 +7,8 @@ export default function App({ Component, pageProps }: AppProps) {
     unprotectedRoutes: ["/unprotected"],
   });
 
+  console.log({ session, isAuthStateLoading });
+
   return (
     <>
       <Component {...pageProps} />

@@ -11,8 +11,12 @@ function getNextRoute(
 ): string {
   let next = "";
 
+  console.log(unprotectedRoutes, currentPath);
+
   // If the current path is an unprotected route, stay on the current path
-  if (unprotectedRoutes.includes(currentPath)) {
+  // If the current path is not found, show the default 404 page
+  if (unprotectedRoutes.includes(currentPath) || currentPath === "/_error") {
+    console.log("unprotected route");
     return currentPath;
   }
 
@@ -46,6 +50,7 @@ export default function useAuthSubscription({
   const [nextRoute, setNextRoute] = useState("");
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [unprotected, setUnprotected] = useState(unprotectedRoutes);
 
   useEffect(() => {
     setIsLoading(true);
@@ -54,7 +59,7 @@ export default function useAuthSubscription({
         event,
         session,
         router.pathname,
-        unprotectedRoutes
+        unprotected
       );
       setNextRoute(nextRoutePath);
       setSession(session);
@@ -65,7 +70,7 @@ export default function useAuthSubscription({
       authState.data.subscription.unsubscribe();
       setIsLoading(false);
     };
-  }, [router, unprotectedRoutes]);
+  }, [router, unprotected]);
 
   useEffect(() => {
     if (nextRoute !== "" && router.pathname !== nextRoute && !isLoading) {
