@@ -51,10 +51,10 @@ export default function useAuthSubscription() {
 
   useEffect(() => {
     // Redirect to the next route if it's not the current route
-    if (nextRoute !== "" && router.pathname !== nextRoute) {
+    if (nextRoute !== "" && router.pathname !== nextRoute && !isLoading) {
       router.push(nextRoute);
     }
-  }, [nextRoute, router]);
+  }, [nextRoute, router, isLoading]);
 
   return {
     session,
