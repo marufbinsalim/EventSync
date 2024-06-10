@@ -1,7 +1,9 @@
+import { setAuthState } from "@/state/auth/AuthSlice";
 import { supabase } from "@/utils/supabase/client";
 import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 function getNextRoute(
   event: AuthChangeEvent,
@@ -44,6 +46,7 @@ export default function useAuthSubscription({
   unprotectedRoutes: string[];
 }) {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [nextRoute, setNextRoute] = useState("");
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -75,6 +78,10 @@ export default function useAuthSubscription({
       router.push(nextRoute);
     }
   }, [nextRoute, router, isLoading]);
+
+  useEffect(() => {
+    dispatch(setAuthState({ session, isLoading }));
+  }, [session, isLoading]);
 
   return {
     session,
