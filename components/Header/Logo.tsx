@@ -1,6 +1,6 @@
 export default function Logo() {
   return (
-    <div className="w-[max-content] flex p-4 gap-2 items-center">
+    <div className="w-[max-content] flex gap-2 items-center">
       <img
         src="/logo.png"
         alt="Logo"

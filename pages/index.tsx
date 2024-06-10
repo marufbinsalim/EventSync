@@ -1,12 +1,12 @@
-import AuthUI from "@/components/AuthUI";
-import Logo from "@/components/Logo";
+import AuthUI from "@/components/Auth/AuthUI";
+import Header from "@/components/Header/Header";
+import Logo from "@/components/Header/Logo";
 import { RootState } from "@/state/store";
 import { CircleDashed } from "lucide-react";
 import { useSelector } from "react-redux";
 
 export default function AuthScreen() {
   const authState = useSelector((state: RootState) => state.auth);
-  console.log(authState);
 
   if (authState.isLoading) {
     return (
@@ -18,9 +18,7 @@ export default function AuthScreen() {
 
   return (
     <div className="flex flex-col items-center h-screen text-white bg-slate-900">
-      <div className="flex justify-center w-full md:justify-start">
-        <Logo />
-      </div>
+      <Header />
       <AuthUI />
     </div>
   );
