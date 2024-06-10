@@ -81,7 +81,7 @@ export default function useAuthSubscription({
 
   useEffect(() => {
     dispatch(setAuthState({ session, isLoading }));
-  }, [session, isLoading]);
+  }, [session, isLoading, dispatch]);
 
   return {
     session,

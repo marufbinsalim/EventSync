@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 export default function AuthScreen() {
   const authState = useSelector((state: RootState) => state.auth);
+  console.log(authState);
 
   if (authState.isLoading) {
     return (
