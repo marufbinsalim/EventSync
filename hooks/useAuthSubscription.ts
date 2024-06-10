@@ -11,12 +11,9 @@ function getNextRoute(
 ): string {
   let next = "";
 
-  console.log(unprotectedRoutes, currentPath);
-
   // If the current path is an unprotected route, stay on the current path
-  // If the current path is not found, show the default 404 page
+  // If the current path is the error page, stay on the current path
   if (unprotectedRoutes.includes(currentPath) || currentPath === "/_error") {
-    console.log("unprotected route");
     return currentPath;
   }
 
@@ -55,7 +52,7 @@ export default function useAuthSubscription({
   useEffect(() => {
     setIsLoading(true);
     const authState = supabase.auth.onAuthStateChange((event, session) => {
-      let nextRoutePath = getNextRoute(
+      const nextRoutePath = getNextRoute(
         event,
         session,
         router.pathname,
