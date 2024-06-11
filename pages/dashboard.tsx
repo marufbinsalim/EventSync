@@ -1,12 +1,18 @@
 import Header from "@/components/Header/Header";
 import NavigationBar from "@/components/Nav/NavigationBar";
-import { supabase } from "@/utils/supabase/client";
+import Head from "next/head";
 
 export default function Dashboard() {
   return (
-    <div>
-      <Header />
-      <NavigationBar />
-    </div>
+    <>
+      <Head>
+        <title>Dashboard @ Eventsync</title>
+        <meta name="description" content="Dashboard" />
+      </Head>
+      <div>
+        <Header />
+        <NavigationBar />
+      </div>
+    </>
   );
 }
