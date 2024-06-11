@@ -10,6 +10,7 @@ export default function useProfile() {
   const queryClient = useQueryClient();
   const AuthState = useSelector((state: RootState) => state.auth);
   const [username, setUsername] = useState<string>("");
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const saveUpdatedUserName = async () => {
     if (AuthState.session?.user?.id && username) {
@@ -26,7 +27,12 @@ export default function useProfile() {
   };
 
   const { data, isLoading, isError } = useQuery({
-    queryFn: async () => await getProfile(AuthState.session?.user?.id ?? null), // Add null check for AuthState.session and AuthState.session.user
+    queryFn: async () => {
+      setIsFetching(true);
+      let data = await getProfile(AuthState.session?.user?.id ?? null);
+      setIsFetching(false);
+      return data;
+    }, // Add null check for AuthState.session and AuthState.session.user
     queryKey: ["profile"], //Array according to Documentation
   });
 
@@ -54,7 +60,7 @@ export default function useProfile() {
         saveUpdatedUserName,
       },
     },
-    isLoading: isLoading || AuthState.isLoading,
+    isLoading: isLoading || AuthState.isLoading || isFetching,
     isError,
   };
 }
