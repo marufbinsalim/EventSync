@@ -24,7 +24,7 @@ export default function Add() {
           <PlusCircle className="w-8 h-8" />
         </button>
         <div className="flex flex-col flex-1 w-full overflow-y-hidden bg-slate-800">
-          <div className="flex-1 w-full m-auto overflow-y-scroll md:w-2/3 styled-scroll">
+          <div className="flex-1 w-full m-auto overflow-y-auto md:w-2/3 styled-scroll">
             {/* title input container */}
             <div className="flex flex-col gap-2 px-4 py-2">
               <p className="text-lg text-white">Event Title</p>
