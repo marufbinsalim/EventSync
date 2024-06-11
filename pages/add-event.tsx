@@ -31,7 +31,7 @@ export default function Add() {
         <NavigationBar />
 
         <div className="flex flex-col flex-1 w-full overflow-y-hidden bg-slate-800">
-          <div className="items-center flex-1 w-full m-auto my-2 overflow-y-auto md:w-2/3">
+          <div className="items-center flex-1 w-full m-auto my-2 overflow-y-auto md:w-2/3 styled-scroll">
             {/* title input container */}
             <div className="flex flex-col gap-2 px-4 py-2">
               <p className="text-lg text-white">Event Title</p>
