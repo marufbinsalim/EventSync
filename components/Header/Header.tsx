@@ -1,5 +1,6 @@
 import Logo from "@/components/Header/Logo";
 import useProfile from "@/hooks/useProfile";
+import { CircleDashed } from "lucide-react";
 
 export default function Header() {
   const { data, isLoading, isError } = useProfile();
@@ -7,7 +8,17 @@ export default function Header() {
   return (
     <div className="flex justify-between w-full px-4 text-white md:items-center md:p-4 bg-slate-900">
       <Logo />
-      {data?.user && (
+
+      {/* scaffold */}
+      {isLoading && (
+        <div className="flex gap-2 pt-2 md:items-center">
+          <div className="w-[80px] h-[30px] bg-slate-800 rounded-2xl" />
+          <div className="w-8 h-8 rounded-full bg-slate-600 md:w-12 md:h-12"></div>
+        </div>
+      )}
+
+      {/* data */}
+      {data?.user && !isLoading && (
         <div className="flex gap-2 pt-2 md:items-center">
           <a href="/profile">
             <p className="text-lg font-thin text-slate-300">
