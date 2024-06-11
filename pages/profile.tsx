@@ -1,16 +1,11 @@
-import { supabase } from "@/utils/supabase/client";
+import Header from "@/components/Header/Header";
+import NavigationBar from "@/components/Nav/NavigationBar";
 
-export default function Dashboard() {
+export default function Profile() {
   return (
     <div>
-      Profile
-      <button
-        onClick={async () => {
-          let { error } = await supabase.auth.signOut();
-        }}
-      >
-        Sign Out
-      </button>
+      <Header />
+      <NavigationBar />
     </div>
   );
 }

@@ -5,7 +5,7 @@ export default function Header() {
   const { data, isLoading, isError } = useProfile();
 
   return (
-    <div className="flex items-center justify-between w-full p-4 text-white bg-slate-900">
+    <div className="flex items-center justify-between w-full px-4 text-white md:p-4 bg-slate-900">
       <Logo />
       {data?.user && (
         <div className="flex items-center gap-2">
