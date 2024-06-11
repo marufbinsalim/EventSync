@@ -6,20 +6,22 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
 export default function NavigationBar() {
-  async function signOut() {
-    let { error } = await supabase.auth.signOut();
-  }
-  let unprotectedRoutes = useSelector(
-    (state: RootState) => state.auth.unprotectedRoutes
-  );
   const router = useRouter();
 
-  let isUnprotectedRoute = false;
+  async function signOut() {
+    let { error } = await supabase.auth.signOut();
+    if (error) console.log("Error logging out:", error.message);
+  }
 
+  let authState = useSelector((state: RootState) => state.auth);
+  let unprotectedRoutes = authState.unprotectedRoutes;
+  let isUnprotectedRoute = false;
   if (unprotectedRoutes)
     isUnprotectedRoute = unprotectedRoutes.includes(router.pathname);
 
-  if (isUnprotectedRoute) return null;
+  if (isUnprotectedRoute && !authState.isLoading && !authState.session) {
+    return null;
+  }
 
   return (
     <nav className="flex items-center justify-end w-full gap-4 px-4 pt-2 pb-4 text-center text-white md:border-t md:p-4 md:justify-end md:gap-4 bg-slate-900 md:border-slate-800">
