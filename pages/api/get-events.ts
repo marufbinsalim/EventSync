@@ -42,12 +42,15 @@ export default async function handler(
     .filter("startDate", "gte", startDateRangeStart) // filters events that start after the start date range
     .filter("endDate", "lte", endDateRangeEnd) // filters events that end before the end date range
     .ilike("title", `%${titleSearch}%`) // filters events that have the title search string in the title
-    .ilike("location", `%${locationSearch}%`) // filters events that have the location search string in the location
-    .range(range.start, range.end);
+    .ilike("location", `%${locationSearch}%`); // filters events that have the location search string in the location
 
   if (auth_id) {
+    // if there is an auth_id, filter events that were created by the user
     queryBuilder = queryBuilder.filter("created_by", "eq", auth_id);
   }
+
+  // enables pagination
+  queryBuilder = queryBuilder.range(range.start, range.end);
 
   let { data, count, error } = (await queryBuilder) as {
     // we will use this to build pagination later
