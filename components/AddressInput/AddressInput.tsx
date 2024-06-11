@@ -15,8 +15,8 @@ export default function AddressInput({
     useDebouncedAddressSuggestion(address, selectedAddress);
 
   return (
-    <div className="relative w-[100%] md:w-[max-content] bg-slate-800 flex justify-center">
-      <div className="flex items-center gap-2">
+    <div className="relative w-[max-content] max-w-screen bg-slate-800 flex justify-center">
+      <div className="flex items-center gap-2 w-[full] flex-wrap">
         <input
           type="text"
           value={address}
@@ -48,7 +48,7 @@ export default function AddressInput({
       </div>
 
       {(loading || suggestions.length > 0) && (
-        <div className="absolute top-[120%] left-0 w-[100%] bg-slate-700 rounded-md shadow-lg p-2">
+        <div className="absolute z-30 top-[120%] left-0 w-[100%] bg-slate-700 rounded-md shadow-lg p-2">
           {loading && (
             <div className="flex justify-center w-full p-2 border-b cursor-pointer border-sate-500 last:border-0 hover:bg-slate-800 bg-slate-700 text-slate-200">
               <CircleDashed className="w-6 h-6 animate-spin" />
