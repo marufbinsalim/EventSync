@@ -5,12 +5,14 @@ export default function Header() {
   const { data, isLoading, isError } = useProfile();
 
   return (
-    <div className="flex items-center justify-between w-full px-4 text-white md:p-4 bg-slate-900">
+    <div className="flex justify-between w-full px-4 text-white md:items-center md:p-4 bg-slate-900">
       <Logo />
       {data?.user && (
-        <div className="flex items-center gap-2">
+        <div className="flex gap-2 pt-2 md:items-center">
           <a href="/profile">
-            <p>{data.user.username || ""}</p>
+            <p className="text-lg font-thin text-slate-300">
+              {data.user.username || ""}
+            </p>
           </a>
           <a href="/profile">
             <img
