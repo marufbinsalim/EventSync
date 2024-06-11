@@ -74,7 +74,7 @@ export default function Profile() {
                   </div>
                 )}
                 {editName && (
-                  <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-2 p-2 rounded-md bg-slate-900 w-max m-auto">
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-2 p-2 rounded-md bg-slate-900 w-max m-auto">
                     <input
                       value={data.updatebleLocalStates.username}
                       onChange={(e) =>
@@ -85,7 +85,7 @@ export default function Profile() {
                     />
                     <button
                       onClick={handleUpdateUserName}
-                      className="text-white bg-primary rounded-md px-4 py-2 flex gap-2 items-center bg-slate-900"
+                      className="text-white bg-primary rounded-md px-4 py-2 flex gap-2 items-center bg-slate-700"
                     >
                       Update
                       <LucideSave size={24} />
