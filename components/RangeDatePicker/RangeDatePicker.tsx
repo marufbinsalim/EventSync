@@ -1,11 +1,12 @@
 import { useState } from "react";
 import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
-export default function RangeDatePicker() {
-  const [value, setValue] = useState<DateValueType>({
-    startDate: null,
-    endDate: null,
-  });
-
+export default function RangeDatePicker({
+  value,
+  setValue,
+}: {
+  value: DateValueType;
+  setValue: (value: DateValueType) => void;
+}) {
   const handleValueChange = (newValue: DateValueType) => {
     setValue(newValue);
   };

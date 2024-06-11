@@ -1,4 +1,5 @@
 import AddressInput from "@/components/AddressInput/AddressInput";
+import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
 import NavigationBar from "@/components/Nav/NavigationBar";
 import Head from "next/head";
@@ -23,7 +24,7 @@ export default function Dashboard() {
             ))
           }
         </div>
-        <div>Footer</div>
+        <Footer />
       </div>
     </>
   );
