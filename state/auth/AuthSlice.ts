@@ -4,6 +4,7 @@ import type { Session } from "@supabase/supabase-js";
 type AuthState = {
   session: Session | null;
   isLoading: boolean;
+  unprotectedRoutes?: string[];
 };
 
 const initialState: AuthState = {
@@ -19,6 +20,10 @@ const authSlice = createSlice({
       let { session, isLoading } = action.payload;
       state.session = session;
       state.isLoading = isLoading;
+
+      if (action.payload.unprotectedRoutes) {
+        state.unprotectedRoutes = action.payload.unprotectedRoutes;
+      }
     },
   },
 });

@@ -80,8 +80,10 @@ export default function useAuthSubscription({
   }, [nextRoute, router, isLoading]);
 
   useEffect(() => {
-    dispatch(setAuthState({ session, isLoading }));
-  }, [session, isLoading, dispatch]);
+    dispatch(
+      setAuthState({ session, isLoading, unprotectedRoutes: unprotected })
+    );
+  }, [session, isLoading, unprotected, dispatch]);
 
   return {
     session,
