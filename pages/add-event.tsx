@@ -73,7 +73,6 @@ export default function Add() {
       return;
     }
 
-    console.log("Event added successfully");
     toast.success("Event added successfully");
 
     setTitle("");

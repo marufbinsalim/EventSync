@@ -22,11 +22,11 @@ async function getEvents(
   if (response.ok) {
     let {
       data,
-      pageinationInfo,
+      paginationInfo,
       error,
     }: {
       data: any[];
-      pageinationInfo: {
+      paginationInfo: {
         currentPage: number;
         pageSize: number;
         totalPages: number;
@@ -38,7 +38,7 @@ async function getEvents(
       console.error(error);
       return null;
     }
-    return { data, pageinationInfo };
+    return { data, paginationInfo };
   } else {
     console.error(response.statusText);
     return null;

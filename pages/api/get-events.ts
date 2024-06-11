@@ -6,7 +6,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<{
     data: any[];
-    pageinationInfo: {
+    paginationInfo: {
       currentPage: number;
       pageSize: number;
       totalPages: number;
@@ -26,7 +26,7 @@ export default async function handler(
   let auth_id = req.body.auth_id || null;
 
   let currentPage = req.body.currentPage || 1;
-  let pageSize = req.body.pageSize || 5;
+  let pageSize = req.body.pageSize || 1;
   let offset = (currentPage - 1) * pageSize;
   let range = {
     start: offset,
@@ -50,7 +50,7 @@ export default async function handler(
   }
 
   // enables pagination
-  queryBuilder = queryBuilder.range(range.start, range.end);
+  queryBuilder = queryBuilder.range(range.start, range.end - 1);
 
   let { data, count, error } = (await queryBuilder) as {
     // we will use this to build pagination later
@@ -60,7 +60,7 @@ export default async function handler(
   };
   res.status(200).json({
     data,
-    pageinationInfo: {
+    paginationInfo: {
       currentPage,
       pageSize,
       totalPages: Math.ceil(count / pageSize),
