@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 
 interface Suggestion {
-  properties: {
-    display_name: string;
-  };
+  display_name: string;
 }
 
 function useDebouncedAddressSuggestion(address: string, debounceTime = 300) {
@@ -31,11 +29,11 @@ function useDebouncedAddressSuggestion(address: string, debounceTime = 300) {
     }
     setLoading(true);
     fetch(
-      `https://nominatim.openstreetmap.org/search?format=geojson&limit=5&city=${debouncedAddress}`
+      `https://nominatim.openstreetmap.org/search.php?q=${debouncedAddress}&polygon_geojson=1&limit=5&format=jsonv2`
     )
       .then((res) => res.json())
       .then((data) => {
-        setSuggestions(data.features);
+        setSuggestions(data);
         setLoading(false);
       })
       .catch(() => {
@@ -44,7 +42,7 @@ function useDebouncedAddressSuggestion(address: string, debounceTime = 300) {
       });
   }, [debouncedAddress]);
 
-  return { suggestions, loading, setSuggestions };
+  return { suggestions, loading, setSuggestions, setLoading };
 }
 
 export default useDebouncedAddressSuggestion;
