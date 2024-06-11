@@ -64,6 +64,15 @@ export default function Profile() {
                   />
                   <p className="w-full text-center">{data.user.email}</p>
                 </div>
+
+                {data.user.created_at && (
+                  <div className="flex flex-col items-center gap-4 font-extralight">
+                    <p>
+                      Account created on :{" "}
+                      {new Date(data.user.created_at).toDateString()}
+                    </p>
+                  </div>
+                )}
                 {editName && (
                   <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-2 p-2 rounded-md bg-slate-900 w-max m-auto">
                     <input
@@ -97,7 +106,6 @@ export default function Profile() {
                   </div>
                 )}
               </div>
-              <div className="flex flex-col items-center gap-4 mt-4"></div>
             </div>
           )}
         </div>
