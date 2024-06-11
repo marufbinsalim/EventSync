@@ -29,3 +29,5 @@ export default async function getProfile(
     return null;
   }
 }
+
+export type { User };
