@@ -9,6 +9,7 @@ import Head from "next/head";
 import { useState } from "react";
 import { DateValueType } from "react-tailwindcss-datepicker";
 import addEvent from "@/utils/query-functions/addEvent";
+import toast from "react-hot-toast";
 
 export default function Add() {
   const [title, setTitle] = useState<string>("");
@@ -24,26 +25,31 @@ export default function Add() {
   async function handleAddEvent() {
     if (!data || !data.user) {
       console.error("Unauthenticated user cannot add event");
+      toast.error("Unauthenticated user cannot add event");
       return;
     }
 
     if (!title || title.trim() === "") {
       console.error("Title is required");
+      toast.error("Title Field is required");
       return;
     }
 
     if (!selectedAddress || selectedAddress.trim() === "") {
       console.error("Location is required");
+      toast.error("Location Field is required");
       return;
     }
 
     if (!description || description.trim() === "") {
       console.error("Description is required");
+      toast.error("Description Field is required");
       return;
     }
 
     if (!dateRange || !dateRange.startDate || !dateRange.endDate) {
       console.error("Date Range is required");
+      toast.error("Date Range is required");
       return;
     }
 
@@ -63,14 +69,16 @@ export default function Add() {
 
     if (!response) {
       console.error("Failed to add event");
+      toast.error("Failed to add event");
       return;
     }
 
     console.log("Event added successfully");
+    toast.success("Event added successfully");
 
     setTitle("");
     setSelectedAddress("");
-    forceUpdate((prev) => prev + 1); // Clear the input field
+    forceUpdate((num) => num + 1); // re-render the AddressInput component
     setDescription("");
     setDateRange({ startDate: null, endDate: null });
   }
