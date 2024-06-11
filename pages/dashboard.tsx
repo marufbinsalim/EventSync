@@ -1,3 +1,4 @@
+import AddressInput from "@/components/AddressInput/AddressInput";
 import Header from "@/components/Header/Header";
 import NavigationBar from "@/components/Nav/NavigationBar";
 import Head from "next/head";
@@ -13,6 +14,7 @@ export default function Dashboard() {
         <Header />
         <NavigationBar />
         <div className="flex-1 overflow-y-scroll styled-scroll">
+          <AddressInput />
           {
             // 1000 divs rendered
             Array.from({ length: 1000 }, (_, i) => (
