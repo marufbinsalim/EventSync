@@ -44,6 +44,7 @@ function useDebouncedAddressSuggestion(
         setSuggestions([]);
         setLoading(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedAddress, selectedAddress]);
 
   return { suggestions, loading, setSuggestions, setLoading };
