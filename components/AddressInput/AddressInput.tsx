@@ -6,7 +6,7 @@ export default function AddressInput() {
   const [address, setAddress] = useState<string>("");
   const [selectedAddress, setSelectedAddress] = useState<string>("");
   const { suggestions, setSuggestions, loading, setLoading } =
-    useDebouncedAddressSuggestion(address);
+    useDebouncedAddressSuggestion(address, selectedAddress);
 
   return (
     <div className="relative w-[100%] md:w-[max-content] p-2 bg-slate-800 flex justify-center">

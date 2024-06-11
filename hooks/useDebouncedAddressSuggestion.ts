@@ -4,7 +4,11 @@ interface Suggestion {
   display_name: string;
 }
 
-function useDebouncedAddressSuggestion(address: string, debounceTime = 300) {
+function useDebouncedAddressSuggestion(
+  address: string,
+  selectedAddress: string,
+  debounceTime: number = 300
+) {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(false);
   const [debouncedAddress, setDebouncedAddress] = useState(address);
@@ -22,7 +26,7 @@ function useDebouncedAddressSuggestion(address: string, debounceTime = 300) {
 
   // Fetch suggestions based on debounced address
   useEffect(() => {
-    if (debouncedAddress.trim() === "") {
+    if (debouncedAddress.trim() === "" || address === selectedAddress) {
       setSuggestions([]);
       setLoading(false);
       return;
@@ -40,7 +44,7 @@ function useDebouncedAddressSuggestion(address: string, debounceTime = 300) {
         setSuggestions([]);
         setLoading(false);
       });
-  }, [debouncedAddress]);
+  }, [debouncedAddress, selectedAddress]);
 
   return { suggestions, loading, setSuggestions, setLoading };
 }
