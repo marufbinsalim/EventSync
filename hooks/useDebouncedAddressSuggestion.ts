@@ -5,27 +5,26 @@ interface Suggestion {
 }
 
 function useDebouncedAddressSuggestion(
-  address: string,
-  selectedAddress: string,
-  debounceTime: number = 300
+  address: string, // the actual state bound to the input field
+  selectedAddress: string // the state to be updated when a suggestion is selected
 ) {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(false);
   const [debouncedAddress, setDebouncedAddress] = useState(address);
 
-  // Debounce the address input
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedAddress(address);
-    }, debounceTime); // Adjust the debounce delay as needed (300ms here)
+    }, 300);
 
     return () => {
       clearTimeout(handler);
     };
-  }, [address, debounceTime]);
+  }, [address]);
 
   // Fetch suggestions based on debounced address
   useEffect(() => {
+    // If the input is empty or the address is already selected, don't fetch suggestions
     if (debouncedAddress.trim() === "" || address === selectedAddress) {
       setSuggestions([]);
       setLoading(false);
@@ -47,7 +46,7 @@ function useDebouncedAddressSuggestion(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedAddress, selectedAddress]);
 
-  return { suggestions, loading, setSuggestions, setLoading };
+  return { suggestions, setSuggestions, loading, setLoading };
 }
 
 export default useDebouncedAddressSuggestion;

@@ -8,6 +8,7 @@ import Footer from "@/components/Footer/Footer";
 import Head from "next/head";
 import { useState } from "react";
 import { DateValueType } from "react-tailwindcss-datepicker";
+import addEvent from "@/utils/query-functions/addEvent";
 
 export default function Add() {
   const [title, setTitle] = useState<string>("");
@@ -17,8 +18,62 @@ export default function Add() {
     startDate: null,
     endDate: null,
   });
-
+  const [addressInputKey, forceUpdate] = useState<number>(0); // To force re-render the AddressInput component (clear the input field)
   const { data, isLoading, isError } = useProfile();
+
+  async function handleAddEvent() {
+    if (!data || !data.user) {
+      console.error("Unauthenticated user cannot add event");
+      return;
+    }
+
+    if (!title || title.trim() === "") {
+      console.error("Title is required");
+      return;
+    }
+
+    if (!selectedAddress || selectedAddress.trim() === "") {
+      console.error("Location is required");
+      return;
+    }
+
+    if (!description || description.trim() === "") {
+      console.error("Description is required");
+      return;
+    }
+
+    if (!dateRange || !dateRange.startDate || !dateRange.endDate) {
+      console.error("Date Range is required");
+      return;
+    }
+
+    let startDateTimeStampz = new Date(dateRange.startDate).toISOString();
+    let endDateTimeStampz = new Date(dateRange.endDate).toISOString();
+
+    const event = {
+      title,
+      location: selectedAddress,
+      description,
+      startDate: startDateTimeStampz,
+      endDate: endDateTimeStampz,
+      created_by: data.user.id,
+    };
+
+    let response = await addEvent(event);
+
+    if (!response) {
+      console.error("Failed to add event");
+      return;
+    }
+
+    console.log("Event added successfully");
+
+    setTitle("");
+    setSelectedAddress("");
+    forceUpdate((prev) => prev + 1); // Clear the input field
+    setDescription("");
+    setDateRange({ startDate: null, endDate: null });
+  }
 
   return (
     <>
@@ -44,18 +99,19 @@ export default function Add() {
               />
             </div>
 
+            {/* Date Picker container */}
+            <div className="px-4 py-2">
+              <RangeDatePicker value={dateRange} setValue={setDateRange} />
+            </div>
+
             {/* address input container */}
             <div className="flex flex-col gap-2 px-4 py-2 m-auto">
               <p className="text-lg text-white">Location</p>
               <AddressInput
+                key={addressInputKey}
                 selectedAddress={selectedAddress}
                 setSelectedAddress={setSelectedAddress}
               />
-            </div>
-
-            {/* Date Picker container */}
-            <div className="px-4 py-2">
-              <RangeDatePicker value={dateRange} setValue={setDateRange} />
             </div>
 
             {/* Description Container */}
@@ -71,7 +127,10 @@ export default function Add() {
             </div>
           </div>
         </div>
-        <button className="flex items-center justify-center gap-2 px-4 py-2 text-white bg-black rounded-[20px] w-[max-content] ml-auto mr-4 md:ml-[33vh] md:mr-0 my-2 md:my-8">
+        <button
+          onClick={handleAddEvent}
+          className="flex items-center justify-center gap-2 px-4 py-2 text-white bg-black rounded-[20px] w-[max-content] ml-auto mr-4 md:ml-[33vh] md:mr-0 my-2 md:my-8"
+        >
           <p>Add</p>
           <PlusCircle className="w-6 h-6 md:h-8 md:w-8" />
         </button>
