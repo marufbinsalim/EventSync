@@ -23,6 +23,8 @@ export default async function handler(
   let titleSearch = req.body.titleSearch || "";
   let locationSearch = req.body.locationSearch || "";
 
+  let auth_id = req.body.auth_id || null;
+
   let currentPage = req.body.currentPage || 1;
   let pageSize = req.body.pageSize || 5;
   let offset = (currentPage - 1) * pageSize;
@@ -32,7 +34,7 @@ export default async function handler(
   };
 
   let supabase = createClient(req, res);
-  let { data, count, error } = (await supabase
+  let queryBuilder = supabase
     .from("events")
     .select(`*, responses: responses(*, users: profiles(*))`, {
       count: "exact",
@@ -41,7 +43,13 @@ export default async function handler(
     .filter("endDate", "lte", endDateRangeEnd) // filters events that end before the end date range
     .ilike("title", `%${titleSearch}%`) // filters events that have the title search string in the title
     .ilike("location", `%${locationSearch}%`) // filters events that have the location search string in the location
-    .range(range.start, range.end)) as {
+    .range(range.start, range.end);
+
+  if (auth_id) {
+    queryBuilder = queryBuilder.filter("created_by", "eq", auth_id);
+  }
+
+  let { data, count, error } = (await queryBuilder) as {
     // we will use this to build pagination later
     data: any[];
     count: number;
