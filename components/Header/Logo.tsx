@@ -2,7 +2,9 @@ import { useRouter } from "next/router";
 
 export default function Logo() {
   const router = useRouter();
-  let showBreadcrumb = ["/profile", "/add-event"].includes(router.pathname);
+  let showBreadcrumb = ["/profile", "/add-event", "/terms-of-service"].includes(
+    router.pathname
+  );
   return (
     <a href="/dashboard">
       <div className="w-[max-content] flex gap-2 py-2 md:py-0 md:items-center">

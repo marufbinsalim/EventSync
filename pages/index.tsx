@@ -1,6 +1,5 @@
 import AuthUI from "@/components/Auth/AuthUI";
 import Header from "@/components/Header/Header";
-import Logo from "@/components/Header/Logo";
 import { RootState } from "@/state/store";
 import { CircleDashed } from "lucide-react";
 import { useSelector } from "react-redux";

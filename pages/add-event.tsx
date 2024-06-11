@@ -2,12 +2,12 @@ import Header from "@/components/Header/Header";
 import NavigationBar from "@/components/Nav/NavigationBar";
 import Head from "next/head";
 
-export default function Dashboard() {
+export default function Add() {
   return (
     <>
       <Head>
-        <title>Dashboard @ Eventsync</title>
-        <meta name="description" content="Dashboard" />
+        <title>Add Event @ Eventsync</title>
+        <meta name="description" content="profile page!" />
       </Head>
       <div className="flex flex-col h-[100%] overflow-y-hidden">
         <Header />

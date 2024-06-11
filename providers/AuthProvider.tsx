@@ -6,7 +6,7 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   useAuthSubscription({
-    unprotectedRoutes: ["/unprotected"],
+    unprotectedRoutes: ["/terms-of-service"],
   });
 
   return <>{children}</>;

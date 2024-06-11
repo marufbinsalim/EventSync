@@ -1,3 +1,4 @@
+import useProfile from "@/hooks/useProfile";
 import { supabase } from "@/utils/supabase/client";
 import { LogOutIcon, LucideCircleUserRound, PlusCircle } from "lucide-react";
 
