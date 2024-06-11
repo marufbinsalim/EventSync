@@ -2,19 +2,39 @@ import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
 import NavigationBar from "@/components/Nav/NavigationBar";
 import useProfile from "@/hooks/useProfile";
-import {
-  CircleDashed,
-  Edit,
-  Edit2Icon,
-  LucideSave,
-  SaveIcon,
-} from "lucide-react";
+import { CircleDashed, Edit, LucideSave } from "lucide-react";
 import Head from "next/head";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Profile() {
   const { data, isLoading, isError } = useProfile();
   const [editName, setEditName] = useState(false);
+
+  async function handleUpdateUserName() {
+    if (!data || !data.user) {
+      toast.error("Something went wrong! Please try again later!");
+      setEditName(false);
+      return;
+    }
+
+    if (data.updatebleLocalStates.username.length < 3) {
+      toast.error("Username must be atleast 3 characters long!");
+      setEditName(false);
+      return;
+    }
+
+    if (data.updatebleLocalStates.username === data.user.username) {
+      toast.success("Username is same as the current one!");
+      setEditName(false);
+      return;
+    }
+
+    await data.updateLocalStates.saveUpdatedUserName();
+    toast.success("Username updated successfully!");
+    setEditName(false);
+  }
+
   return (
     <>
       <Head>
@@ -24,7 +44,7 @@ export default function Profile() {
       <div className="flex flex-col h-[100%] overflow-y-hidden">
         <Header />
         <NavigationBar />
-        <div className="flex-1 overflow-y-scroll styled-scroll text-white bg-slate-700">
+        <div className="flex-1 overflow-y-auto styled-scroll text-white bg-slate-700">
           {isLoading && (
             <div className="flex justify-center items-center h-[60vh]">
               <CircleDashed
@@ -55,10 +75,7 @@ export default function Profile() {
                       spellCheck={false}
                     />
                     <button
-                      onClick={async () => {
-                        await data.updateLocalStates.saveUpdatedUserName();
-                        setEditName(false);
-                      }}
+                      onClick={handleUpdateUserName}
                       className="text-white bg-primary rounded-md px-4 py-2 flex gap-2 items-center bg-slate-900"
                     >
                       Update
