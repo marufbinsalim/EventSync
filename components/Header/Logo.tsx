@@ -5,7 +5,7 @@ export default function Logo() {
   let showBreadcrumb = ["/profile", "/add-event"].includes(router.pathname);
   return (
     <a href="/dashboard">
-      <div className="w-[max-content] flex gap-2 mt-4 md:m-0 md:items-center">
+      <div className="w-[max-content] flex gap-2 py-2 md:py-0 md:items-center">
         <img
           src="/logo.png"
           alt="Logo"
@@ -15,11 +15,17 @@ export default function Logo() {
         />
         <h1 className="flex flex-col gap-2 text-xl md:items-center md:flex-row md:text-2xl">
           <p>Eventsync</p>
-          <span className="block text-sm text-gray-500 md:block">
+          <span className="hidden text-sm text-gray-500 md:block">
             {showBreadcrumb && router.pathname}
           </span>
         </h1>
       </div>
+
+      {showBreadcrumb && (
+        <div className="flex gap-2 text-sm text-gray-500 md:hidden">
+          {router.pathname}
+        </div>
+      )}
     </a>
   );
 }
