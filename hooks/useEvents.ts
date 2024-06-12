@@ -111,16 +111,6 @@ export default function useEvents({
   }
 
   useEffect(() => {
-    // if (
-    //   titleSearch === "" &&
-    //   locationSearch === "" &&
-    //   dateRange &&
-    //   dateRange.startDate === null &&
-    //   dateRange.endDate === null &&
-    //   !showSelfEvents
-    // ) {
-    //   return;
-    // }
     applyFilters();
   }, [titleSearch, locationSearch, dateRange, showSelfEvents, firstRender]);
 
