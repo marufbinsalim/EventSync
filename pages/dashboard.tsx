@@ -7,7 +7,7 @@ import NavigationBar from "@/components/Nav/NavigationBar";
 import Pagination from "@/components/Pagination/Pagination";
 import useEvents from "@/hooks/useEvents";
 import useProfile from "@/hooks/useProfile";
-import { CircleDashed } from "lucide-react";
+import { Box, CircleDashed, SquareDashedMousePointer } from "lucide-react";
 import Head from "next/head";
 import { useState } from "react";
 
@@ -104,6 +104,17 @@ export default function Dashboard() {
                 ))}
               </div>
             )}
+          {!isLoading &&
+            data &&
+            data.events &&
+            data.events.length === 0 &&
+            view === "events" && (
+              <div className="flex justify-center items-center flex-1 bg-slate-600 text-white">
+                <p className="text-lg mr-2">No events found</p>
+                <Box className="w-10 h-10 text-primary" size={64} />
+              </div>
+            )}
+
           {view !== "events" && (
             <DetailedView
               view={view}
