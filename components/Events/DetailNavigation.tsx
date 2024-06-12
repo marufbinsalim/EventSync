@@ -13,6 +13,7 @@ function DetailNavigation({
   return (
     <div className="flex gap-4 justify-left md:justify-center w-full pb-4">
       <button
+        data-testid="back-button"
         className="p-2 bg-slate-700 rounded-md text-white flex gap-2 items-center mr-auto"
         onClick={(e) => {
           setView("events");
@@ -22,6 +23,7 @@ function DetailNavigation({
         <MoveLeft className="w-6 h-6" />
       </button>
       <button
+        data-testid="details-button"
         className="p-2 bg-slate-700 rounded-md text-white flex gap-2 items-center"
         onClick={(e) => {
           setView("details");
@@ -31,6 +33,7 @@ function DetailNavigation({
       </button>
       {isCreator && (
         <button
+          data-testid="edit-button"
           className="p-2 bg-slate-700 rounded-md text-white flex gap-2 items-center"
           onClick={(e) => {
             setView("edit");

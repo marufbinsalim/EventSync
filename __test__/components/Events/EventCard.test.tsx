@@ -23,7 +23,6 @@ describe("EventCard", () => {
     expect(element.textContent).toBe("You are not attending this event");
   });
 
-  // the opposite of the previous test
   it("If the user is not attending the event, the attendance status should be 'You are not attending this event'", () => {
     render(
       <EventCard
