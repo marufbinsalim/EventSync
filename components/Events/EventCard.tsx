@@ -1,4 +1,4 @@
-import { DashboardView } from "@/pages/dashboard";
+import { DashboardViewType } from "@/pages/dashboard";
 import { getFormattedDateString } from "@/utils/basic-functions/getFormattedDate";
 import { CircleDashed } from "lucide-react";
 function EventCard({
@@ -19,7 +19,7 @@ function EventCard({
     attending: boolean
   ) => void;
   togglingAttendance: { event_id: string; state: boolean } | null;
-  setView: (view: DashboardView) => void;
+  setView: (view: DashboardViewType) => void;
   setSelectedEvent: (event: any) => void;
 }) {
   function GoToView(e: React.MouseEvent<HTMLDivElement>) {

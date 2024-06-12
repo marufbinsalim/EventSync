@@ -1,4 +1,4 @@
-import { DashboardView } from "@/pages/dashboard";
+import { DashboardViewType } from "@/pages/dashboard";
 import { Edit, InfoIcon, MoveLeft } from "lucide-react";
 
 function DetailNavigation({
@@ -6,7 +6,7 @@ function DetailNavigation({
   isCreator,
   setSelectedEvent,
 }: {
-  setView: (view: DashboardView) => void;
+  setView: (view: DashboardViewType) => void;
   isCreator: boolean;
   setSelectedEvent: (event: any) => void;
 }) {

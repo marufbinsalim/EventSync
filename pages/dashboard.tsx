@@ -11,7 +11,7 @@ import { CircleDashed } from "lucide-react";
 import Head from "next/head";
 import { useState } from "react";
 
-export type DashboardView = "events" | "details" | "edit";
+export type DashboardViewType = "events" | "details" | "edit";
 
 export default function Dashboard() {
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
@@ -38,7 +38,7 @@ export default function Dashboard() {
     setSelectedEvent,
   });
 
-  const [view, setView] = useState<DashboardView>("events");
+  const [view, setView] = useState<DashboardViewType>("events");
 
   function isAttending(event: any): boolean {
     if (!profileData || !profileData.user) return false;

@@ -1,6 +1,7 @@
-import { DashboardView } from "@/pages/dashboard";
+import { DashboardViewType } from "@/pages/dashboard";
 import DetailNavigation from "./DetailNavigation";
 import Info from "@/components/Events/Info";
+import Edit from "./Edit";
 
 export default function DetailedView({
   selectedEvent,
@@ -15,8 +16,8 @@ export default function DetailedView({
 }: {
   selectedEvent: any;
   isCreator: boolean;
-  view: DashboardView;
-  setView: (view: DashboardView) => void;
+  view: DashboardViewType;
+  setView: (view: DashboardViewType) => void;
   setSelectedEvent: (event: any) => void;
   isAttending: boolean;
   toggleAttendance: (
@@ -44,6 +45,7 @@ export default function DetailedView({
           user_id={user_id}
         />
       )}
+      {view === "edit" && <Edit event={selectedEvent} setView={setView} />}
     </div>
   );
 }

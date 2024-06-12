@@ -1,4 +1,5 @@
 import getEvents from "@/utils/query-functions/getEvents";
+import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { DateValueType } from "react-tailwindcss-datepicker";
@@ -12,6 +13,7 @@ export default function useEvents({
   setSelectedEvent: (event: any) => void;
   user: any;
 }) {
+  const supabase = createClient();
   const [page, setPage] = useState<number>(1);
   const [events, setEvents] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -35,6 +37,35 @@ export default function useEvents({
     totalPages: number;
     totalItems: number;
   } | null>(null);
+
+  // listen for changes in supabase client postgres events table
+  useEffect(() => {
+    const eventsListener = supabase
+      .channel("public:data")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "events" },
+        (payload) => {
+          if (payload.new.id === selectedEvent.id) {
+            setSelectedEvent(payload.new);
+
+            let updatedEvents = events.map((event) => {
+              if (event.id === payload.new.id) {
+                return payload.new;
+              }
+              return event;
+            });
+            setEvents(updatedEvents);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      eventsListener.unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [supabase]);
 
   useEffect(() => {
     let isMounted = true;
@@ -74,6 +105,16 @@ export default function useEvents({
   }
 
   useEffect(() => {
+    if (
+      titleSearch === "" &&
+      locationSearch === "" &&
+      dateRange &&
+      dateRange.startDate === null &&
+      dateRange.endDate === null &&
+      !showSelfEvents
+    ) {
+      return;
+    }
     applyFilters();
   }, [titleSearch, locationSearch, dateRange, showSelfEvents, user]);
 

@@ -47,7 +47,7 @@ export default function Filter({
       <div className="flex gap-2 items-center">
         <p className="text-lg mr-auto md:mr-0">Date </p>
         <RangeDatePicker
-          searchBar={true}
+          labelLess={true}
           value={dateRange}
           setValue={setDateRange}
         />
