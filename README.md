@@ -1,8 +1,8 @@
 ## Getting Started
 
-populate .env.local with the variables from .env.format on the root of the project
+place the .env.local file at the root of the project
 
-- @'gain solutions', I will email the .env.local file, alongside the link to this repo
+- @'gain solutions', I Have emailed .env.local file, alongside the link to this repo and the production url
 
 After the previous step is done :
 
