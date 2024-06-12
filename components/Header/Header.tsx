@@ -1,6 +1,5 @@
 import Logo from "@/components/Header/Logo";
 import useProfile from "@/hooks/useProfile";
-import { CircleDashed } from "lucide-react";
 
 export default function Header() {
   const { data, isLoading, isError } = useProfile();

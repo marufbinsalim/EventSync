@@ -7,7 +7,7 @@ import NavigationBar from "@/components/Nav/NavigationBar";
 import Pagination from "@/components/Pagination/Pagination";
 import useEvents from "@/hooks/useEvents";
 import useProfile from "@/hooks/useProfile";
-import { Box, CircleDashed, SquareDashedMousePointer } from "lucide-react";
+import { Box, CircleDashed } from "lucide-react";
 import Head from "next/head";
 import { useState } from "react";
 

@@ -45,7 +45,7 @@ export default function DetailedView({
           user_id={user_id}
         />
       )}
-      {view === "edit" && <Edit event={selectedEvent} setView={setView} />}
+      {view === "edit" && <Edit event={selectedEvent} />}
     </div>
   );
 }

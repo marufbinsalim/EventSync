@@ -1,6 +1,5 @@
 import { RootState } from "@/state/store";
 import getProfile from "@/utils/query-functions/getProfile";
-import { User } from "@/utils/query-functions/getProfile";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";

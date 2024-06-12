@@ -1,4 +1,3 @@
-import useProfile from "@/hooks/useProfile";
 import { RootState } from "@/state/store";
 import { supabase } from "@/utils/supabase/client";
 import { LogOutIcon, LucideCircleUserRound, PlusCircle } from "lucide-react";

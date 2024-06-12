@@ -6,13 +6,7 @@ import { CircleDashed, SaveAll } from "lucide-react";
 import toast from "react-hot-toast";
 import updateEvent from "@/utils/query-functions/updateEvent";
 
-export default function Edit({
-  event,
-  setView,
-}: {
-  event: any;
-  setView: (view: any) => void;
-}) {
+export default function Edit({ event }: { event: any }) {
   let [title, setTitle] = useState<string>(event.title);
   let [location, setLocation] = useState<string>(event.location);
   let [description, setDescription] = useState<string>(event.description);

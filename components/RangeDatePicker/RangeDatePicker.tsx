@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
 export default function RangeDatePicker({
   value,
