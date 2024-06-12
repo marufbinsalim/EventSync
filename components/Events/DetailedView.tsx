@@ -29,7 +29,7 @@ export default function DetailedView({
   user_id: string;
 }) {
   return (
-    <div className="absolute flex flex-col gap-2 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[90%] h-[90%] md:w-2/3 md:left-[16.75vw] md:translate-x-0 rounded-20px p-4 bg-slate-800 text-slate-300">
+    <div className="absolute rounded-[20px] flex flex-col gap-2 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[90%] h-[90%] md:w-2/3 md:left-[16.75vw] md:translate-x-0 rounded-20px p-4 bg-slate-800 text-slate-300">
       <DetailNavigation
         setView={setView}
         isCreator={isCreator}
