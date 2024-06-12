@@ -46,7 +46,7 @@ export default function useEvents({
         "postgres_changes",
         { event: "UPDATE", schema: "public", table: "events" },
         (payload) => {
-          if (payload.new.id === selectedEvent.id) {
+          if (selectedEvent && payload.new.id === selectedEvent.id) {
             setSelectedEvent(payload.new);
 
             let updatedEvents = events.map((event) => {
@@ -64,8 +64,7 @@ export default function useEvents({
     return () => {
       eventsListener.unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [supabase]);
+  }, [selectedEvent, setSelectedEvent, events, supabase]);
 
   useEffect(() => {
     let isMounted = true;
