@@ -61,7 +61,7 @@ function EventCard({
             "Attend"
           )}
         </button>
-        <p className="text-sm font-extralight">
+        <p className="text-sm font-extralight" data-testid="attendance-status">
           {isAttending
             ? "You are attending this event"
             : "You are not attending this event"}

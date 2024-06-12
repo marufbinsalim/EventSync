@@ -4,5 +4,11 @@
     // Other rules
     "@next/next/no-img-element": "off",
     "@next/next/no-html-link-for-pages": "off"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true,
+    "jest": true
   }
 }
