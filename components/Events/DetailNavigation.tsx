@@ -11,7 +11,7 @@ function DetailNavigation({
   setSelectedEvent: (event: any) => void;
 }) {
   return (
-    <div className="flex gap-4 justify-center pb-4">
+    <div className="flex gap-4 justify-left md:justify-center w-full pb-4">
       <button
         className="p-2 bg-slate-700 rounded-md text-white flex gap-2 items-center mr-auto"
         onClick={(e) => {
