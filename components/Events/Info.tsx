@@ -46,16 +46,20 @@ export default function Info({
         </div>
 
         <div className="flex flex-col gap-4">
-          <h1 className="text-lg font-bold text-slate-100">
-            {"Title : "} {selectedEvent.title}
+          <h1 className="text-lg font-bold text-slate-300">
+            <span className=" text-white">{"Title : "}</span>
+            {selectedEvent.title}
           </h1>
           <p className="text-sm text-slate-300">
-            {"Location : "} {selectedEvent.location}
+            <span className=" text-white text-lg">{"Location : "}</span>
+            {selectedEvent.location}
           </p>
           <p className="text-sm text-slate-300">
-            {"Description : "} {selectedEvent.description}
+            <span className=" text-white text-lg">{"Description : "}</span>
+            {selectedEvent.description}
           </p>
           <p className="text-sm text-slate-300">
+            <span className=" text-white text-lg">{"Start & End Date : "}</span>
             {getFormattedDateRangeString(
               selectedEvent.startDate,
               selectedEvent.endDate

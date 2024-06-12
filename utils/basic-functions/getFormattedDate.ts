@@ -3,9 +3,9 @@ function getFormattedDateString(date: string) {
 }
 
 function getFormattedDateRangeString(startDate: string, endDate: string) {
-  return `Event Duration : From "${new Date(
-    startDate
-  ).toDateString()}" to "${new Date(endDate).toDateString()}"`;
+  return `"${new Date(startDate).toDateString()}" to "${new Date(
+    endDate
+  ).toDateString()}"`;
 }
 
 export { getFormattedDateString, getFormattedDateRangeString };
