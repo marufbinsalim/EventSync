@@ -25,7 +25,7 @@ export default async function handler(
 
   let auth_id = req.body.auth_id || null;
 
-  let pageSize = req.body.pageSize || 10;
+  let pageSize = req.body.pageSize || 6;
   let currentPage = req.body.currentPage || 1;
   let offset = (currentPage - 1) * pageSize;
   let range = {
