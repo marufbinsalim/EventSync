@@ -20,6 +20,7 @@ export default function useEvents({
   const [showSelfEvents, setShowSelfEvents] = useState<boolean>(false);
   const [titleSearch, setTitleSearch] = useState<string>("");
   const [locationSearch, setLocationSearch] = useState<string>("");
+  const [firstRender, setFirstRender] = useState<boolean>(true);
 
   const [dateRange, setDateRange] = useState<DateValueType>({
     startDate: null,
@@ -47,11 +48,17 @@ export default function useEvents({
         { event: "UPDATE", schema: "public", table: "events" },
         (payload) => {
           if (selectedEvent && payload.new.id === selectedEvent.id) {
-            setSelectedEvent(payload.new);
+            setSelectedEvent({
+              ...selectedEvent,
+              ...payload.new,
+            });
 
             let updatedEvents = events.map((event) => {
               if (event.id === payload.new.id) {
-                return payload.new;
+                return {
+                  ...event,
+                  ...payload.new,
+                };
               }
               return event;
             });
@@ -115,7 +122,14 @@ export default function useEvents({
       return;
     }
     applyFilters();
-  }, [titleSearch, locationSearch, dateRange, showSelfEvents, user]);
+  }, [
+    titleSearch,
+    locationSearch,
+    dateRange,
+    showSelfEvents,
+    firstRender,
+    user,
+  ]);
 
   const reset = async () => {
     setTitleSearch("");
