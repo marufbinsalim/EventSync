@@ -13,16 +13,15 @@ import { useState } from "react";
 export default function Dashboard() {
   const [page, setPage] = useState<number>(1);
   const { data: profileData, isLoading: profileLoading } = useProfile();
-  let { data, isLoading, toggleAttendance } = useEvents({ page });
+  let { data, isLoading, toggleAttendance, togglingAttendance } = useEvents({
+    page,
+  });
 
-  function isAttending(event: any) {
+  function isAttending(event: any): boolean {
     if (!profileData || !profileData.user) {
       return false;
     }
-
-    let user = profileData.user;
-    let user_id = user.id;
-
+    let user_id = profileData.user.id;
     let responses = event.responses;
 
     if (!responses || responses.length === 0) {
@@ -62,6 +61,7 @@ export default function Dashboard() {
                   event={event}
                   isAttending={isAttending(event)}
                   toggleAttendance={toggleAttendance}
+                  togglingAttendance={togglingAttendance}
                   user_id={profileData.user?.id ?? ""}
                 />
               ))}
