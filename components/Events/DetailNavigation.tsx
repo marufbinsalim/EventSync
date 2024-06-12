@@ -21,11 +21,21 @@ function DetailNavigation({
       >
         <MoveLeft className="w-6 h-6" />
       </button>
-      <button className="p-2 bg-slate-700 rounded-md text-white flex gap-2 items-center">
+      <button
+        className="p-2 bg-slate-700 rounded-md text-white flex gap-2 items-center"
+        onClick={(e) => {
+          setView("details");
+        }}
+      >
         Details <InfoIcon className="w-6 h-6" />
       </button>
       {isCreator && (
-        <button className="p-2 bg-slate-700 rounded-md text-white flex gap-2 items-center">
+        <button
+          className="p-2 bg-slate-700 rounded-md text-white flex gap-2 items-center"
+          onClick={(e) => {
+            setView("edit");
+          }}
+        >
           Edit <Edit className="w-6 h-6" />
         </button>
       )}
