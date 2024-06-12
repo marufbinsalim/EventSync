@@ -11,7 +11,7 @@ export default function AddressInput({
   setSelectedAddress: (address: string) => void;
   buttonsInSameRow?: boolean;
 }) {
-  const [address, setAddress] = useState<string>("");
+  const [address, setAddress] = useState<string>(selectedAddress);
 
   const { suggestions, setSuggestions, loading, setLoading } =
     useDebouncedAddressSuggestion(address, selectedAddress);

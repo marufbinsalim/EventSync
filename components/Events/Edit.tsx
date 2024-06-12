@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DateValueType } from "react-tailwindcss-datepicker";
 import AddressInput from "../AddressInput/AddressInput";
 import RangeDatePicker from "../RangeDatePicker/RangeDatePicker";
-import { SaveAll } from "lucide-react";
+import { CircleDashed, SaveAll } from "lucide-react";
 import toast from "react-hot-toast";
 import updateEvent from "@/utils/query-functions/updateEvent";
 
@@ -15,12 +15,12 @@ export default function Edit({
 }) {
   let [title, setTitle] = useState<string>(event.title);
   let [location, setLocation] = useState<string>(event.location);
-  let [locationInputKey, forceUpdateLocation] = useState<number>(0);
   let [description, setDescription] = useState<string>(event.description);
   let [dateRange, setDateRange] = useState<DateValueType>({
     startDate: new Date(event.startDate),
     endDate: new Date(event.endDate),
   });
+  let [isSaving, setIsSaving] = useState<boolean>(false);
 
   async function handleSaveChanges() {
     if (!title || title.trim() === "") {
@@ -56,7 +56,9 @@ export default function Edit({
       created_by: event.created_by,
     };
 
+    setIsSaving(true);
     let response = await updateEvent(updatedEvent);
+    setIsSaving(false);
 
     if (!response) {
       toast.error("Failed to save changes");
@@ -95,7 +97,6 @@ export default function Edit({
         <div className="flex flex-col gap-2 px-4 py-2 m-auto">
           <p className="text-sm text-white">Location</p>
           <AddressInput
-            key={locationInputKey}
             selectedAddress={location}
             setSelectedAddress={setLocation}
             buttonsInSameRow={false}
@@ -118,9 +119,14 @@ export default function Edit({
         <button
           className="bg-slate-700 p-2 rounded-md text-white w-max flex items-center justify-center gap-2 text-sm"
           onClick={handleSaveChanges}
+          disabled={isSaving}
         >
-          Save Changes
-          <SaveAll className="w-4 h-4 text-white" />
+          {isSaving ? "" : "Save Changes"}
+          {isSaving ? (
+            <CircleDashed className="w-4 h-4 text-white animate-spin" />
+          ) : (
+            <SaveAll className="w-4 h-4 text-white" />
+          )}
         </button>
       </div>
     </>
