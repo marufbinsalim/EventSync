@@ -108,7 +108,11 @@ export default function Add() {
 
             {/* Date Picker container */}
             <div className="px-4 py-2">
-              <RangeDatePicker value={dateRange} setValue={setDateRange} />
+              <RangeDatePicker
+                value={dateRange}
+                setValue={setDateRange}
+                isAdding={true}
+              />
             </div>
 
             {/* address input container */}

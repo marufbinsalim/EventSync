@@ -3,10 +3,12 @@ export default function RangeDatePicker({
   value,
   setValue,
   labelLess = false,
+  isAdding = false,
 }: {
   value: DateValueType;
   setValue: (value: DateValueType) => void;
   labelLess?: boolean;
+  isAdding?: boolean;
 }) {
   const handleValueChange = (newValue: DateValueType) => {
     setValue(newValue);
@@ -24,7 +26,7 @@ export default function RangeDatePicker({
         showFooter={false}
         value={value}
         displayFormat={"DD/MM/YYYY"}
-        minDate={new Date(Date.now())}
+        minDate={isAdding ? new Date(Date.now()) : undefined}
         startFrom={new Date(Date.now())}
         onChange={(newValue: DateValueType) => handleValueChange(newValue)}
       />
