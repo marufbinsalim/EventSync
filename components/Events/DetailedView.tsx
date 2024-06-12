@@ -1,17 +1,24 @@
 import { DashboardView } from "@/pages/dashboard";
-import { getFormattedDateString } from "@/utils/basic-functions/getFormattedDate";
+import DetailNavigation from "./DetailNavigation";
 import { CircleDashed } from "lucide-react";
-function EventCard({
-  event,
-  user_id,
+import { getFormattedDateString } from "@/utils/basic-functions/getFormattedDate";
+
+export default function DetailedView({
+  selectedEvent,
+  isCreator,
+  view,
+  setView,
+  setSelectedEvent,
   isAttending,
   toggleAttendance,
   togglingAttendance,
-  setView,
-  setSelectedEvent,
+  user_id,
 }: {
-  user_id: string;
-  event: any;
+  selectedEvent: any;
+  isCreator: boolean;
+  view: DashboardView;
+  setView: (view: DashboardView) => void;
+  setSelectedEvent: (event: any) => void;
   isAttending: boolean;
   toggleAttendance: (
     eventId: string,
@@ -19,41 +26,39 @@ function EventCard({
     attending: boolean
   ) => void;
   togglingAttendance: { event_id: string; state: boolean } | null;
-  setView: (view: DashboardView) => void;
-  setSelectedEvent: (event: any) => void;
+  user_id: string;
 }) {
-  function GoToView(e: React.MouseEvent<HTMLDivElement>) {
-    if (e.target instanceof HTMLButtonElement) return;
-    setSelectedEvent(event);
-    setView("details");
-  }
-
   return (
     <div
-      className="flex flex-col gap-4 p-4 bg-slate-800 rounded-md shadow-md cursor-pointer"
-      onClick={(e: React.MouseEvent<HTMLDivElement>) => GoToView(e)}
+      className={`absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[90%] h-[90%] md:w-2/3 md:left-[16.75vw] md:translate-x-0 justify-center items-center p-4 bg-slate-800 text-slate-300`}
     >
+      <DetailNavigation
+        setView={setView}
+        isCreator={isCreator}
+        setSelectedEvent={setSelectedEvent}
+      />
+
       <div>
         <h1 className="text-lg font-bold text-slate-100">
-          {"Title : "} {event.title}
+          {"Title : "} {selectedEvent.title}
         </h1>
         <p className="text-sm text-slate-300">
-          {"Location : "} {event.location}
+          {"Location : "} {selectedEvent.location}
         </p>
         <p className="text-sm text-slate-300">
-          {"Start Time : " + getFormattedDateString(event.startDate)}
+          {"Start Time : " + getFormattedDateString(selectedEvent.startDate)}
         </p>
       </div>
       <div className="flex items-center gap-2 text-slate-300 mt-auto ">
         <button
           className="bg-slate-700 p-2 rounded-md text-white w-max"
-          disabled={togglingAttendance?.event_id === event.id}
+          disabled={togglingAttendance?.event_id === selectedEvent.id}
           onClick={(e) => {
-            toggleAttendance(event.id, user_id, isAttending);
+            toggleAttendance(selectedEvent.id, user_id, isAttending);
           }}
         >
           {/* {isAttending ? "Not Interested" : "Attend"} */}
-          {togglingAttendance?.event_id === event.id ? (
+          {togglingAttendance?.event_id === selectedEvent.id ? (
             <CircleDashed className="w-4 h-4 animate-spin" />
           ) : isAttending ? (
             "Not Interested"
@@ -70,5 +75,3 @@ function EventCard({
     </div>
   );
 }
-
-export default EventCard;

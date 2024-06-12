@@ -2,7 +2,17 @@ import getEvents from "@/utils/query-functions/getEvents";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function useEvents({ page }: { page: number }) {
+export default function useEvents({
+  page,
+  selectedEvent,
+  setSelectedEvent,
+  user,
+}: {
+  page: number;
+  selectedEvent: any;
+  setSelectedEvent: (event: any) => void;
+  user: any;
+}) {
   const [events, setEvents] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [togglingAttendance, setTogglingAttendance] = useState<{
@@ -36,27 +46,35 @@ export default function useEvents({ page }: { page: number }) {
       let error = await response.json();
       console.error("Failed to toggle attendance:", error);
       toast.error("Failed to toggle attendance");
-    } else {
-      let updatedEvents = events.map((event) => {
-        if (event.id === eventId) {
-          return {
-            ...event,
-            responses: attending
-              ? event.responses.filter(
-                  (response: any) => response.user_id !== userId
-                )
-              : [...event.responses, { user_id: userId }],
-          };
-        }
-        return event;
-      });
-      setEvents(updatedEvents);
-      toast.success(
-        attending
-          ? "You chose not to attend this event"
-          : "You chose to attend this event"
-      );
+      return;
     }
+
+    let updatedEvents = events.map((event) => {
+      if (event.id === eventId) {
+        let updated = {
+          ...event,
+          responses: attending
+            ? event.responses.filter(
+                (response: any) => response.user_id !== userId
+              )
+            : [
+                ...event.responses,
+                { user: user, user_id: userId, event_id: eventId },
+              ],
+        };
+        if (selectedEvent && selectedEvent.id === eventId) {
+          setSelectedEvent(updated);
+        }
+        return updated;
+      }
+      return event;
+    });
+    setEvents(updatedEvents);
+    toast.success(
+      attending
+        ? "You chose not to attend this event"
+        : "You chose to attend this event"
+    );
   }
 
   useEffect(() => {

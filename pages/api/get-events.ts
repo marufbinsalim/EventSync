@@ -37,7 +37,7 @@ export default async function handler(
   let queryBuilder = supabase
     .from("events")
     .select(
-      `*, event_creator: profiles!events_created_by_fkey(*), responses: responses(*, users: profiles(*))`,
+      `*, event_creator: profiles!events_created_by_fkey(*), responses: responses(*, user: profiles(*))`,
       {
         count: "exact",
       }
