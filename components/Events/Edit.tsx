@@ -98,6 +98,7 @@ export default function Edit({
             key={locationInputKey}
             selectedAddress={location}
             setSelectedAddress={setLocation}
+            buttonsInSameRow={false}
           />
         </div>
 

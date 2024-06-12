@@ -5,9 +5,11 @@ import { useState } from "react";
 export default function AddressInput({
   selectedAddress,
   setSelectedAddress,
+  buttonsInSameRow = true,
 }: {
   selectedAddress: string;
   setSelectedAddress: (address: string) => void;
+  buttonsInSameRow?: boolean;
 }) {
   const [address, setAddress] = useState<string>("");
 
@@ -16,7 +18,11 @@ export default function AddressInput({
 
   return (
     <div className="relative w-[max-content] max-w-screen bg-slate-800 flex justify-center">
-      <div className="flex items-center gap-2 w-[full] flex-wrap">
+      <div
+        className={`flex items-center gap-2 w-[full] flex-wrap ${
+          buttonsInSameRow ? "flex-row" : "flex-col-reverse"
+        } md:flex-row`}
+      >
         <input
           type="text"
           value={address}
@@ -24,27 +30,31 @@ export default function AddressInput({
           className="p-[4px] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-slate-600 text-white"
           placeholder="Enter address"
         />
-        <button
-          className="p-2 rounded-md bg-slate-700"
-          onClick={() => {
-            setSelectedAddress(address);
-            setSuggestions([]);
-            setLoading(false);
-          }}
+        <div
+          className={`flex gap-2 ${buttonsInSameRow ? "" : "w-full"} md:w-max`}
         >
-          <SearchCheck color="white" />
-        </button>
-        <button
-          className="p-2 rounded-md bg-slate-700"
-          onClick={() => {
-            setAddress("");
-            setSelectedAddress("");
-            setLoading(false);
-            setSuggestions([]);
-          }}
-        >
-          <XCircleIcon color="white" />
-        </button>
+          <button
+            className="p-2 rounded-md bg-slate-700"
+            onClick={() => {
+              setSelectedAddress(address);
+              setSuggestions([]);
+              setLoading(false);
+            }}
+          >
+            <SearchCheck color="white" />
+          </button>
+          <button
+            className="p-2 rounded-md bg-slate-700"
+            onClick={() => {
+              setAddress("");
+              setSelectedAddress("");
+              setLoading(false);
+              setSuggestions([]);
+            }}
+          >
+            <XCircleIcon color="white" />
+          </button>
+        </div>
       </div>
 
       {(loading || suggestions.length > 0) && (
