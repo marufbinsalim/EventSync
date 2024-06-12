@@ -1,11 +1,13 @@
+import { DashboardView } from "@/pages/dashboard";
 import { getFormattedDateString } from "@/utils/basic-functions/getFormattedDate";
-import { Circle, CircleDashed } from "lucide-react";
+import { CircleDashed } from "lucide-react";
 function EventCard({
   event,
   user_id,
   isAttending,
   toggleAttendance,
   togglingAttendance,
+  setView,
 }: {
   user_id: string;
   event: any;
@@ -16,9 +18,18 @@ function EventCard({
     attending: boolean
   ) => void;
   togglingAttendance: { event_id: string; state: boolean } | null;
+  setView: (view: DashboardView) => void;
 }) {
+  function GoToView(e: React.MouseEvent<HTMLDivElement>) {
+    if (e.target instanceof HTMLButtonElement) return;
+    setView("details");
+  }
+
   return (
-    <div className="flex flex-col gap-4 p-4 bg-slate-800 rounded-md shadow-md cursor-pointer">
+    <div
+      className="flex flex-col gap-4 p-4 bg-slate-800 rounded-md shadow-md cursor-pointer"
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => GoToView(e)}
+    >
       <div>
         <h1 className="text-lg font-bold text-slate-100">
           {"Title : "} {event.title}
@@ -34,7 +45,9 @@ function EventCard({
         <button
           className="bg-slate-700 p-2 rounded-md text-white w-max"
           disabled={togglingAttendance?.event_id === event.id}
-          onClick={() => toggleAttendance(event.id, user_id, isAttending)}
+          onClick={(e) => {
+            toggleAttendance(event.id, user_id, isAttending);
+          }}
         >
           {/* {isAttending ? "Not Interested" : "Attend"} */}
           {togglingAttendance?.event_id === event.id ? (

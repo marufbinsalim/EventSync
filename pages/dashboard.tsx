@@ -10,12 +10,15 @@ import { CircleDashed } from "lucide-react";
 import Head from "next/head";
 import { useState } from "react";
 
+export type DashboardView = "events" | "details" | "edit";
+
 export default function Dashboard() {
   const [page, setPage] = useState<number>(1);
   const { data: profileData, isLoading: profileLoading } = useProfile();
   let { data, isLoading, toggleAttendance, togglingAttendance } = useEvents({
     page,
   });
+  const [view, setView] = useState<DashboardView>("events");
 
   function isAttending(event: any): boolean {
     if (!profileData || !profileData.user) {
@@ -42,8 +45,14 @@ export default function Dashboard() {
       <div className="flex flex-col h-[100%] overflow-y-hidden bg-slate-600">
         <Header />
         <NavigationBar />
-        <div>Search</div>
-        <div className="flex-1 flex flex-col overflow-y-auto styled-scroll bg-slate-600 mb-2">
+        <div
+          className={`bg-slate-800 p-4 text-slate-300 ${
+            view !== "events" ? "hidden" : "flex"
+          }`}
+        >
+          Search
+        </div>
+        <div className="flex-1 flex flex-col overflow-y-auto styled-scroll bg-slate-600 mb-2 relative">
           {isLoading && (
             <div className="flex justify-center items-center flex-1 bg-slate-600 text-white">
               <CircleDashed
@@ -54,7 +63,11 @@ export default function Dashboard() {
           )}
 
           {!isLoading && data && data.events && data.events.length > 0 && (
-            <div className="bg-slate-600 grid grid-cols-1 gap-4 p-4 md:grid-cols-2 lg:grid-cols-3 md:w-2/3 md:mx-auto">
+            <div
+              className={`bg-slate-600 ${
+                view === "events" ? "grid" : "hidden"
+              } grid-cols-1 gap-4 p-4 md:grid-cols-2 lg:grid-cols-3 md:w-2/3 md:mx-auto relative`}
+            >
               {data.events.map((event, index) => (
                 <EventCard
                   key={index}
@@ -63,12 +76,23 @@ export default function Dashboard() {
                   toggleAttendance={toggleAttendance}
                   togglingAttendance={togglingAttendance}
                   user_id={profileData.user?.id ?? ""}
+                  setView={setView}
                 />
               ))}
             </div>
           )}
+          <div
+            onClick={(e) => {
+              setView("events");
+            }}
+            className={`absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[90%] h-[90%] md:w-2/3 md:left-[16.75vw] md:translate-x-0 justify-center items-center p-4 bg-slate-800 text-slate-300 ${
+              view !== "events" ? "flex" : "hidden"
+            }`}
+          >
+            aaa
+          </div>
         </div>
-        {!isLoading && data && data.paginationInfo && (
+        {!isLoading && data && data.paginationInfo && view === "events" && (
           <Pagination
             page={page}
             setPage={setPage}
