@@ -1,7 +1,5 @@
 import { DashboardView } from "@/pages/dashboard";
 import DetailNavigation from "./DetailNavigation";
-import { CircleDashed } from "lucide-react";
-import { getFormattedDateRangeString } from "@/utils/basic-functions/getFormattedDate";
 import Info from "@/components/Events/Info";
 
 export default function DetailedView({

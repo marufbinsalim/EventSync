@@ -1,14 +1,13 @@
 import getEvents from "@/utils/query-functions/getEvents";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { DateValueType } from "react-tailwindcss-datepicker";
 
 export default function useEvents({
-  page,
   selectedEvent,
   setSelectedEvent,
   user,
 }: {
-  page: number;
   selectedEvent: any;
   setSelectedEvent: (event: any) => void;
   user: any;
@@ -19,6 +18,7 @@ export default function useEvents({
     event_id: string;
     state: boolean;
   } | null>(null);
+  const [page, setPage] = useState<number>(1);
 
   const [paginationInfo, setPaginationInfo] = useState<{
     currentPage: number;
@@ -26,6 +26,13 @@ export default function useEvents({
     totalPages: number;
     totalItems: number;
   } | null>(null);
+
+  const [titleSearch, setTitleSearch] = useState<string>("");
+  const [locationSearch, setLocationSearch] = useState<string>("");
+  const [dateRange, setDateRange] = useState<DateValueType>({
+    startDate: null,
+    endDate: null,
+  });
 
   async function toggleAttendance(
     eventId: string,
@@ -78,9 +85,17 @@ export default function useEvents({
   }
 
   useEffect(() => {
+    console.log("useEffect");
     let isMounted = true;
+    if (page === 0) return;
     setIsLoading(true);
-    getEvents(page).then((response) => {
+    getEvents(
+      page,
+      dateRange?.startDate ? new Date(dateRange.startDate).toISOString() : null,
+      dateRange?.endDate ? new Date(dateRange.endDate).toISOString() : null,
+      titleSearch,
+      locationSearch
+    ).then((response) => {
       if (isMounted && response) {
         setEvents(response.data);
         setPaginationInfo(response.paginationInfo);
@@ -91,7 +106,35 @@ export default function useEvents({
     return () => {
       isMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
+  async function applyFilters() {
+    console.log("applyFilters");
+    setPage(0);
+
+    // await for 200ms before fetching data
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    setPage(1);
+  }
+
+  useEffect(() => {
+    console.log("useEffect");
+    applyFilters();
+  }, [titleSearch, locationSearch, dateRange]);
+
+  const reset = async () => {
+    setTitleSearch("");
+    setLocationSearch("");
+    setDateRange({ startDate: null, endDate: null });
+
+    setPage(0);
+    // await for 200ms before fetching data
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    setPage(1);
+  };
+
   return {
     data: {
       events,
@@ -100,5 +143,15 @@ export default function useEvents({
     toggleAttendance,
     togglingAttendance,
     isLoading,
+    titleSearch,
+    setTitleSearch,
+    locationSearch,
+    setLocationSearch,
+    dateRange,
+    setDateRange,
+    reset,
+    applyFilters,
+    page,
+    setPage,
   };
 }
