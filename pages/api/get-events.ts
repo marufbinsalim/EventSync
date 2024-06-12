@@ -25,8 +25,8 @@ export default async function handler(
 
   let auth_id = req.body.auth_id || null;
 
+  let pageSize = req.body.pageSize || 10;
   let currentPage = req.body.currentPage || 1;
-  let pageSize = req.body.pageSize || 1;
   let offset = (currentPage - 1) * pageSize;
   let range = {
     start: offset,
@@ -36,13 +36,17 @@ export default async function handler(
   let supabase = createClient(req, res);
   let queryBuilder = supabase
     .from("events")
-    .select(`*, responses: responses(*, users: profiles(*))`, {
-      count: "exact",
-    }) // joins responses and users to events data based on the foreign keys
+    .select(
+      `*, event_creator: profiles!events_created_by_fkey(*), responses: responses(*, users: profiles(*))`,
+      {
+        count: "exact",
+      }
+    ) // joins responses and users to events data based on the foreign keys
     .filter("startDate", "gte", startDateRangeStart) // filters events that start after the start date range
     .filter("endDate", "lte", endDateRangeEnd) // filters events that end before the end date range
     .ilike("title", `%${titleSearch}%`) // filters events that have the title search string in the title
-    .ilike("location", `%${locationSearch}%`); // filters events that have the location search string in the location
+    .ilike("location", `%${locationSearch}%`) // filters events that have the location search string in the location
+    .order("created_at", { ascending: true }); // orders events by start date
 
   if (auth_id) {
     // if there is an auth_id, filter events that were created by the user

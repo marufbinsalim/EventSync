@@ -1,3 +1,4 @@
+import { MoveLeft, MoveRight } from "lucide-react";
 import React from "react";
 
 interface PaginationProps {
@@ -113,7 +114,7 @@ const Pagination: React.FC<PaginationProps> = ({
         className="p-2 bg-slate-700 rounded-md"
         disabled={page === 1}
       >
-        Prev
+        <MoveLeft />
       </button>
       <div className="flex gap-2">{renderPageNumbers()}</div>
       <button
@@ -121,7 +122,7 @@ const Pagination: React.FC<PaginationProps> = ({
         className="p-2 bg-slate-700 rounded-md"
         disabled={page === paginationInfo.totalPages}
       >
-        Next
+        <MoveRight />
       </button>
     </div>
   );
